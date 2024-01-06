@@ -1,0 +1,12 @@
+#user {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  height: inherit;
+  width: inherit;
+  padding: 60px 30px;
+}
+
+#user div {
+  padding: 10px 0;
+}

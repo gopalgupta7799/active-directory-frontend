@@ -1,0 +1,12 @@
+#group {
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+  height: inherit;
+  width: inherit;
+  padding: 60px 30px;
+}
+
+#group div {
+  padding: 10px 0;
+}

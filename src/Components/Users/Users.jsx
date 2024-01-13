@@ -42,8 +42,8 @@ export default function Users() {
     e.preventDefault();
     setShowPopUp(false);
     let formData = {};
-    console.log(name, email);
     formData["name"] = name;
+    formData["email"] = email;
     console.log(formData);
     axios({
       // Endpoint to send files
@@ -61,6 +61,8 @@ export default function Users() {
       .catch((err) => {
         console.log(err);
       });
+    setName('');
+    setEmail('');
 
   }
 
@@ -83,9 +85,8 @@ export default function Users() {
               </div>
               <div>
                 <legend>Email</legend>
-                <input name="email" value={email} onChange={(e) =>{
-                  setEmail(e.target.value);
-                  console.log(e.target.value, email)}}/>
+                <input name="email" value={email} onChange={(e) =>
+                  setEmail(e.target.value)}/>
               </div>
             </div>
             <input type={"submit"} value={"Submit"}/>

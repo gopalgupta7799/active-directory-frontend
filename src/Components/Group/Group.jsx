@@ -19,9 +19,12 @@ export default function Group() {
 
   return (
     <div id={"group"}>
+      <div className={"pageHeading"}>
+        <Link to={`/groups/${groupId}`}>{groupId}</Link>
+      </div>
       <Link to={`/groups/${group.id}/users`}>Users</Link>
-      <div className={"entityId"}>Id: {group.id}</div>
-      <div className={"entityName"}>Name: {group.name}</div>
+      <span className={"entityId"}>Id: {group.id}</span>
+      <span className={"entityName"}>Name: {group.name}</span>
     </div>
 
   );

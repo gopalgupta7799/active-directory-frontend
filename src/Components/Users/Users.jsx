@@ -3,11 +3,17 @@ import React, {useEffect, useState} from 'react'
 import Constants from "../../Util/Constants";
 import axios from "axios";
 import {Link, useParams} from "react-router-dom";
+import Table from "../Table/Table";
+import Pagination from "../Pagination/Pagination";
+import PopUp from "../PopUp/PopUp";
 
 export default function Users() {
   const [pageNumber, setPageNumber] = useState(0);
   const [users, setUsers] = useState([]);
   const [pages, setPages] = useState([]);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   let {groupId} = useParams();
 
   useEffect(() => {
@@ -16,7 +22,6 @@ export default function Users() {
       endpoint += "/groups/" + groupId;
     }
     endpoint += "/users";
-    console.log(endpoint)
     axios.get(Constants.BACKEND_URL + endpoint, {
       headers: {
         "pageNumber": pageNumber
@@ -33,44 +38,72 @@ export default function Users() {
       });
   }, [groupId, pageNumber]);
 
+  function submitForm(e) {
+    e.preventDefault();
+    setShowPopUp(false);
+    let formData = {};
+    console.log(name, email);
+    formData["name"] = name;
+    console.log(formData);
+    axios({
+      // Endpoint to send files
+      url: Constants.BACKEND_URL + "/users",
+      method: "POST",
+      headers: {},
+      // Attaching the form data
+      data: formData,
+    })
+      // Handle the response from backend here
+      .then((res) => {
+        console.log(res);
+      })
+      // Catch errors if any
+      .catch((err) => {
+        console.log(err);
+      });
+
+  }
+
   return (
     <div id={"users"}>
       <div className={"pageHeading"}>
         {groupId !== undefined
-          ? <Link to={`/groups/${groupId}`}>{groupId} </Link> : ""}
+          ? <><Link to={`/groups/${groupId}`}>{groupId}</Link> | </> : ""}
         Users
       </div>
-      <table>
-        <thead>
-        <tr>
-          <td>Id</td>
-          <td>Name</td>
-          <td>Email</td>
-        </tr>
-        </thead>
-        <tbody>
-        {users.map(user => (
-          <tr key={user.id}>
-            <td><Link to={`/users/${user.id}`} style={{color: "var(--link-color)"}}>{user.id}</Link></td>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-          </tr>
-        ))}
-        </tbody>
-      </table>
-      <div className={"pagination"}>
-        {
-          pages.map((page, i) =>
-            <span key={i}
-                  className={"pageNumber"}
-                  style={pageNumber === page - 1 ? {"border": "2px solid var(--theme-color)"} : {}}
-                  onClick={(e) =>
-                    setPageNumber(parseInt(e.currentTarget.innerText) - 1)
-                  }
-            >{page}</span>)
-        }
+      <div className={"optionsMenu"}>
+        <span onClick={() => setShowPopUp(true)}>Add</span>
+        <PopUp showPopUp={showPopUp} setShowPopUp={setShowPopUp} data={
+          <form className={"popUpForm"} onSubmit={e => submitForm(e)}>
+            <div>
+              <div>
+                <legend>Name</legend>
+                <input name="name" value={name} onChange={(e) =>
+                  setName(e.target.value)}/>
+              </div>
+              <div>
+                <legend>Email</legend>
+                <input name="email" value={email} onChange={(e) =>{
+                  setEmail(e.target.value);
+                  console.log(e.target.value, email)}}/>
+              </div>
+            </div>
+            <input type={"submit"} value={"Submit"}/>
+          </form>
+        }/>
       </div>
+      <Table
+        columns={{"Id": "id", "Name": "name", "Email": "email"}}
+        rows={users}
+        type={"users"}
+      />
+      <Pagination
+        pages={pages}
+        pageNumber={pageNumber}
+        setPageNumber={setPageNumber}
+      />
     </div>
 
-  );
+  )
+    ;
 }

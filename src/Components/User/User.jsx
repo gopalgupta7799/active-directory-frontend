@@ -19,10 +19,13 @@ export default function User() {
 
   return (
     <div id={"user"}>
+      <div className={"pageHeading"}>
+        <Link to={`/users/${userId}`}>{userId}</Link>
+      </div>
       <Link to={`/users/${user.id}/groups`}>Groups</Link>
-      <div className={"entityId"}>Id: {user.id}</div>
-      <div className={"entityName"}>Name: {user.name}</div>
-      <div className={"entityEmail"}>Email: {user.email}</div>
+      <span className={"entityId"}>Id: {user.id}</span>
+      <span className={"entityName"}>Name: {user.name}</span>
+      <span className={"entityEmail"}>Email: {user.email}</span>
     </div>
 
   );

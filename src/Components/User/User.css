@@ -4,9 +4,9 @@
   overflow: scroll;
   height: inherit;
   width: inherit;
-  padding: 60px 30px;
+  padding: 0 30px;
 }
 
-#user div {
+#user span {
   padding: 10px 0;
 }

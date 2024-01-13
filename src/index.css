@@ -1,8 +1,9 @@
 :root {
   --shadow: #c3c4c5;
-  --theme-color: rgb(185, 240, 252);
+  --theme-color: #B9F0FCFF;
   --link-color: #0078d4;
   --row-color: #f2f3f5;
+  --pop-up-background: rgba(0, 0, 0, 0.66);
 }
 
 * {
